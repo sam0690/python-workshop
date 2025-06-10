@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{post.title}}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center">
+    <div class="bg-white shadow-lg rounded-lg p-8 max-w-2xl w-full">
+        <div class="post-title text-3xl font-bold text-gray-800 mb-2">{{post.title}}</div>
+        <div class="post-meta text-sm text-gray-500 mb-6">
+            By <span class="font-semibold text-gray-700">{{post.author}}</span> | Published on {{post.date}}
+        </div>
+        <div class="post-content text-lg text-gray-700 space-y-4 mb-8">
+            <p>
+               {{post.content}}
+            </p>
+            <p>
+                {{post.description}}
+            </p>
+        </div>
+        {% comment %} <div class="post-comments mt-8">
+            <h3 class="text-xl font-semibold text-gray-800 mb-4">Comments</h3>
+            <div class="space-y-4">
+                <div class="comment bg-gray-50 rounded p-4 shadow-sm">
+                    <p><span class="font-bold text-blue-700">John Smith:</span> Great post! I love Django.</p>
+                </div>
+                <div class="comment bg-gray-50 rounded p-4 shadow-sm">
+                    <p><span class="font-bold text-blue-700">Emily Johnson:</span> Thanks for the tips, very helpful!</p>
+                </div>
+            </div>
+        </div> {% endcomment %}
+
+        <div class="post-actions mt-8 flex justify-between">
+            <a href="{% url 'home' %}" class="text-blue-600 hover:underline">Back to Home</a>
+            <a href="#" class="text-blue-600 hover:underline">Share</a>
+    </div>
+</body>
+</html>
