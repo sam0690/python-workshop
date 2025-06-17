@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Movies Collection - MovieBox</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script
+      defer
+      src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body class="bg-gray-900" x-data="{ filterOpen: false }">
+    <!-- Navigation Bar -->
+    <header
+      class="fixed top-0 w-full bg-gradient-to-b from-black/90 to-transparent z-50"
+    >
+      <nav class="container mx-auto px-4 py-4">
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-8">
+            <a
+              href="{% url 'home' %}"
+              class="text-red-600 text-3xl font-bold tracking-wider"
+              >MovieBox</a
+            >
+            <div class="hidden md:flex space-x-6">
+              <a
+                href="{% url 'home' %}"
+                class="text-gray-300 hover:text-red-600 transition"
+                >Home</a
+              >
+              <a href="{% url 'movie_list' %}" class="text-red-600">Movies</a>
+              <a href="#" class="text-gray-300 hover:text-red-600 transition"
+                >TV Shows</a
+              >
+            </div>
+          </div>
+
+          <div class="flex items-center space-x-4 relative">
+            <div :class="filterOpen ? 'translate-x-[-20rem] md:translate-x-[-20rem]' : 'translate-x-0'" class="flex items-center space-x-4 transition-transform duration-300 ease-in-out">
+              <button
+                @click="filterOpen = !filterOpen"
+                class="px-4 py-2 bg-gray-800 rounded-full hover:bg-gray-700 transition flex items-center text-white"
+              >
+                <i class="fas fa-filter mr-2"></i>
+                Filters
+              </button>
+              {% if user.is_authenticated %}
+              <a
+                href="{% url 'add_movie' %}"
+                class="px-4 py-2 bg-red-600 rounded-full hover:bg-red-700 transition flex items-center"
+              >
+                <i class="fas fa-plus mr-2"></i>
+                Add Movie
+              </a>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 pt-24 text-white">
+      <!-- Filter Sidebar -->
+      <div
+      x-show="filterOpen"
+      x-transition
+      class="fixed inset-y-0 right-0 w-80 bg-gray-800 p-6 shadow-lg z-40 overflow-y-auto text-white"
+      >
+      <div class="flex justify-between items-center mb-6">
+        <h3 class="text-xl font-bold">Filters</h3>
+        <button
+        @click="filterOpen = false"
+        class="text-gray-400 hover:text-white"
+        >
+        <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <div class="space-y-6">
+        <!-- Genre Filter -->
+        <div>
+        <h4 class="font-semibold mb-3">Genre</h4>
+        <div class="space-y-2">
+          {% for genre in genres %}
+          <label class="flex items-center">
+            <input
+              type="checkbox"
+              class="form-checkbox text-red-600 rounded"
+              name="genre"
+              value="{{ genre }}"
+            />
+            <span class="ml-2">{{ genre }}</span>
+          </label>
+          {% endfor %}
+        </div>
+        </div>
+
+        <!-- Year Filter -->
+        <div>
+        <h4 class="font-semibold mb-3">Release Year</h4>
+        <input
+          type="range"
+          min="{{ min_year }}"
+          max="{{ max_year }}"
+          class="w-full"
+          x-model="selectedYear"
+        />
+        <div class="flex justify-between text-sm mt-2">
+          <span x-text="selectedYear || '{{ min_year }}'"></span>
+          <span>{{ max_year }}</span>
+        </div>
+        </div>
+        <script>
+          document.addEventListener('alpine:init', () => {
+            Alpine.data('filterSidebar', () => ({
+              selectedYear: '{{ min_year }}'
+            }))
+          })
+        </script>
+
+        <!-- Rating Filter -->
+        <div>
+        <h4 class="font-semibold mb-3">Rating</h4>
+        <div class="flex items-center space-x-2">
+          <i class="fas fa-star text-yellow-500"></i>
+          <input type="range" min="0" max="10" class="w-full" />
+        </div>
+        </div>
+      </div>
+      </div>
+
+      <!-- Movies Grid -->
+    <div class="py-8">
+      {% if movies %}
+      <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+        {% for movie in movies %}
+        <div class="group relative">
+        <!-- Movie Card -->
+        <div
+          class="relative overflow-hidden rounded-lg bg-gray-800 shadow-lg transform transition hover:scale-105"
+        >
+          {% if movie.cover_image %}
+          <img
+            src="{{ movie.cover_image }}"
+            alt="{{ movie.title }}"
+            class="w-full aspect-[2/3] object-cover"
+          />
+          {% endif %}
+
+          <!-- Overlay -->
+          <div
+            class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity"
+          >
+            <div class="absolute bottom-0 left-0 right-0 p-4">
+            <a href="{% url 'movie_detail' movie.id %}" class="block">
+              <h3 class="text-lg font-bold mb-1 text-white">{{ movie.title }}</h3>
+              <div class="flex items-center space-x-3 text-xs mb-2">
+                <span class="flex items-center text-white">
+                <i class="fas fa-star text-yellow-500 mr-1"></i>
+                {{ movie.rating }}/10
+                </span>
+                <span class="text-white">{{ movie.release_year }}</span>
+              </div>
+            </a>
+
+            <!-- Action Buttons -->
+            <div class="flex space-x-2">
+              {% if movie.video_url %}
+              <a
+                href="{{ movie.video_url }}"
+                class="p-2 bg-red-600 rounded-full hover:bg-red-700 transition"
+              >
+                <i class="fas fa-play"></i>
+              </a>
+              {% endif %}
+              <button
+                class="p-2 bg-gray-700 rounded-full hover:bg-gray-600 transition"
+              >
+                <i class="fas fa-plus"></i>
+              </button>
+              {% if movie.trailer_url %}
+              <a
+                href="{{ movie.trailer_url }}"
+                class="p-2 bg-gray-700 rounded-full hover:bg-gray-600 transition"
+              >
+                <i class="fas fa-film"></i>
+              </a>
+              {% endif %}
+            </div>
+            </div>
+          </div>
+        </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <!-- Empty State -->
+      <div class="text-center py-16">
+        <div
+        class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gray-800 mb-4"
+        >
+        <i class="fas fa-film text-2xl text-gray-400"></i>
+        </div>
+        <h3 class="text-xl font-semibold mb-2">No Movies Available</h3>
+        <p class="text-gray-400 mb-6">
+        There are no movies in the collection yet.
+        </p>
+        {% if user.is_authenticated %}
+        <a
+        href="{% url 'add_movie' %}"
+        class="inline-flex items-center px-6 py-3 bg-red-600 rounded-full hover:bg-red-700 transition"
+        >
+        <i class="fas fa-plus mr-2"></i>
+        Add Your First Movie
+        </a>
+        {% endif %}
+      </div>
+      {% endif %}
+    </div>
+    </main>
+  </body>
+</html>

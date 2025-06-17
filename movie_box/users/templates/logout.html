@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Logout - MovieBox</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+  </head>
+  <body class="bg-gray-900 min-h-screen">
+    <!-- Background Pattern -->
+    <div class="fixed inset-0 opacity-20">
+      <div
+        class="absolute inset-0 bg-gradient-to-br from-red-600/30 via-transparent to-blue-600/30"
+      ></div>
+      <div
+        class="absolute inset-0"
+        style="
+          background-image: url('data:image/svg+xml,%3Csvg width='60' height='60' viewBox='006060' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M54.6270l.83.828-1.4151.415L51.80h2.827zM5.3730l-0.83.828L5.962.2438.20H5.374zM48.970l3.6573.657-1.4141.414L46.1430h2.828zM11.030L7.3723.6578.7875.0713.8570H11.03zm32.2840L49.86.48548.3847.9l-7.9-7.9h2.83zM16.6860L10.26.48511.6167.9l7.9-7.9h-2.83zM22.3430L13.8588.48515.2729.9l7.9-7.9h-0.828zm5.6570L19.5158.48520.939.9l8.485-8.485h-1.414zM32.6570L26.1726.48527.5867.9l5.657-5.657h-0.586zm5.6570l-7.0717.0711.4151.415L400h-1.686zM44.3430L36.8587.48538.2728.9l7.9-7.9h-1.83zm5.6570l-8.4858.4851.4141.414L51.80h-1.8zM05.373l.828-0.83L2.2435.9608.2V5.374zm05.656l.828-0.8291.4151.415L013.857V11.03zm05.657l.828-0.8281.4151.414L019.515v-2.829z' fill='%23FFFFFF' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E');
+        "
+      ></div>
+    </div>
+
+    <!-- Content -->
+    <div class="relative min-h-screen flex items-center justify-center p-4">
+      <div class="w-full max-w-md text-center">
+        <!-- Logo -->
+        <a href="{% url 'home' %}" class="inline-block mb-8">
+          <h1
+            class="text-5xl font-bold bg-gradient-to-r from-red-600 to-pink-600 bg-clip-text text-transparent"
+          >
+            MovieBox
+          </h1>
+        </a>
+
+        <!-- Logout Message -->
+        <div class="bg-gray-800/50 backdrop-blur-sm rounded-2xl p-8 mb-8">
+          <div
+            class="w-20 h-20 bg-red-600/20 rounded-full flex items-center justify-center mx-auto mb-6"
+          >
+            <i class="fas fa-sign-out-alt text-3xl text-red-500"></i>
+          </div>
+
+          <h2 class="text-2xl font-bold text-white mb-4">
+            You've Been Logged Out
+          </h2>
+          <p class="text-gray-400 mb-8">
+            Thanks for visiting MovieBox. Hope to see you again soon!
+          </p>
+
+          <div class="flex flex-col sm:flex-row gap-4 justify-center">
+            <a
+              href="{% url 'login' %}"
+              class="px-6 py-3 bg-red-600 text-white rounded-xl hover:bg-red-700 transition flex items-center justify-center"
+            >
+              <i class="fas fa-sign-in-alt mr-2"></i>
+              Sign In Again
+            </a>
+            {% comment %} <a
+              href="{% url 'home' %}"
+              class="px-6 py-3 bg-gray-700 text-white rounded-xl hover:bg-gray-600 transition flex items-center justify-center"
+            >
+              <i class="fas fa-home mr-2"></i>
+              Back to Home
+            </a> {% endcomment %}
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div class="flex justify-center space-x-6 text-gray-400">
+          <a href="#" class="hover:text-red-500 transition">
+            <i class="fab fa-facebook text-xl"></i>
+          </a>
+          <a href="#" class="hover:text-red-500 transition">
+            <i class="fab fa-twitter text-xl"></i>
+          </a>
+          <a href="#" class="hover:text-red-500 transition">
+            <i class="fab fa-instagram text-xl"></i>
+          </a>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

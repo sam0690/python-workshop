@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>My Favorite Movies</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <header class="bg-white shadow">
+        <div class="container mx-auto px-4 py-6 flex flex-col md:flex-row items-center justify-between">
+            <h1 class="text-3xl font-bold text-gray-800 mb-4 md:mb-0">Favorite Movies</h1>
+            <nav class="space-x-4">
+                <a href="{% url 'home' %}" class="text-gray-600 hover:text-blue-600 font-medium">Home</a>
+                <a href="{% url 'movies' %}" class="text-gray-600 hover:text-blue-600 font-medium">All Movies</a>
+                <a href="{% url 'favorites' %}" class="text-blue-600 font-semibold underline">Favorites</a>
+                <a href="{% url 'logout' %}" class="text-gray-600 hover:text-blue-600 font-medium">Logout</a>
+            </nav>
+        </div>
+    </header>
+    <main class="container mx-auto px-4 py-8">
+        {% if favorite_movies %}
+            <ul class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
+                {% for movie in favorite_movies %}
+                    <li class="bg-white rounded-lg shadow hover:shadow-lg transition p-4 flex flex-col">
+                        <img src="{{ movie.poster_url }}" alt="{{ movie.title }} poster" class="rounded-lg w-full h-64 object-cover mb-4">
+                        <div class="flex-1 flex flex-col">
+                            <h2 class="text-xl font-semibold text-gray-800 mb-2">{{ movie.title }}</h2>
+                            <p class="text-gray-600 mb-4 flex-1">{{ movie.description|truncatewords:20 }}</p>
+                            <form method="post" action="{% url 'remove_favorite' movie.id %}">
+                                {% csrf_token %}
+                                <button type="submit" class="w-full bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded transition">
+                                    Remove from Favorites
+                                </button>
+                            </form>
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <div class="text-center py-16">
+                <p class="text-gray-500 text-lg">You have no favorite movies yet.</p>
+            </div>
+        {% endif %}
+    </main>
+</body>
+</html>

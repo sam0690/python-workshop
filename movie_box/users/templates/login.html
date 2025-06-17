@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+    />
+    <title>MovieBox - Login</title>
+  </head>
+  <body class="bg-gray-900 min-h-screen">
+    <!-- Background Pattern -->
+    <div class="fixed inset-0 opacity-20">
+      <div
+        class="absolute inset-0 bg-gradient-to-br from-red-600/30 via-transparent to-blue-600/30"
+      ></div>
+      <div
+        class="absolute inset-0"
+        style="
+          background-image: url('data:image/svg+xml,%3Csvg width='60' height='60' viewBox='006060' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M54.6270l.83.828-1.4151.415L51.80h2.827zM5.3730l-0.83.828L5.962.2438.20H5.374zM48.970l3.6573.657-1.4141.414L46.1430h2.828zM11.030L7.3723.6578.7875.0713.8570H11.03zm32.2840L49.86.48548.3847.9l-7.9-7.9h2.83zM16.6860L10.26.48511.6167.9l7.9-7.9h-2.83zM22.3430L13.8588.48515.2729.9l7.9-7.9h-0.828zm5.6570L19.5158.48520.939.9l8.485-8.485h-1.414zM32.6570L26.1726.48527.5867.9l5.657-5.657h-0.586zm5.6570l-7.0717.0711.4151.415L400h-1.686zM44.3430L36.8587.48538.2728.9l7.9-7.9h-1.83zm5.6570l-8.4858.4851.4141.414L51.80h-1.8zM05.373l.828-0.83L2.2435.9608.2V5.374zm05.656l.828-0.8291.4151.415L013.857V11.03zm05.657l.828-0.8281.4151.414L019.515v-2.829zm05.657l.828-0.8281.4151.415L025.172v-2.829zm05.657l.828-0.8281.4151.415L030.83v-2.83zm05.657l.828-0.8281.4151.415L036.486v-2.829zm05.657l.828-0.8281.4151.415L042.143v-2.829zm05.657l.828-0.8281.4151.415L047.8v-2.829zm05.657l.828-0.8281.4151.415L053.456v-2.829zm05.657l.828-0.8281.4151.415L059.113v-2.829zm05.657l.828-0.8281.4151.415L064.77v-2.829zm05.657l.828-0.8281.4151.415L070.427v-2.829zm05.657l.828-0.8281.4151.415L076.084v-2.829zm05.657l.828-0.8281.4151.415L081.741v-2.829zm05.657l.828-0.8281.4151.415L087.398v-2.829zm05.657l.828-0.8281.4151.415L093.055v-2.829zm05.657l.828-0.8281.4151.415L098.712v-2.829zm05.657l.828-0.8281.4151.415L0104.37v-2.83zm05.657l.828-0.8281.4151.415L0110.026v-2.829z' fill='%23FFFFFF' fill-opacity='0.1' fill-rule='evenodd'/%3E%3C/svg%3E');
+        "
+      ></div>
+    </div>
+
+    <!-- Content -->
+    <div class="relative min-h-screen flex items-center justify-center p-4">
+      <!-- Logo and Back Link -->
+      <a
+        href="{% url 'home' %}"
+        class="absolute top-8 left-8 flex items-center text-gray-300 hover:text-white transition"
+      >
+        {% comment %} <i class="fas fa-arrow-left mr-2"></i>
+        Back to Home {% endcomment %}
+      </a>
+
+      <!-- Login Form Card -->
+      <div class="w-full max-w-md">
+        <!-- Logo -->
+        <div class="text-center mb-8">
+          <a href="{% url 'home' %}" class="inline-block">
+            <h1
+              class="text-5xl font-bold bg-gradient-to-r from-red-600 to-pink-600 bg-clip-text text-transparent"
+            >
+              MovieBox
+            </h1>
+          </a>
+          <p class="text-gray-400 mt-4 text-lg">
+            Welcome back! Please login to your account.
+          </p>
+        </div>
+
+        <!-- Social Login -->
+        <div class="flex gap-4 mb-8">
+          <button
+            class="flex-1 py-3 px-4 bg-gray-800 hover:bg-gray-700 rounded-xl transition flex items-center justify-center text-gray-300"
+          >
+            <i class="fab fa-google text-red-500 mr-2"></i>
+            Google
+          </button>
+          <button
+            class="flex-1 py-3 px-4 bg-gray-800 hover:bg-gray-700 rounded-xl transition flex items-center justify-center text-gray-300"
+          >
+            <i class="fab fa-facebook text-blue-500 mr-2"></i>
+            Facebook
+          </button>
+        </div>
+
+        <div class="relative my-8">
+          <hr class="border-gray-800" />
+          <span
+            class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-gray-900 px-4 text-gray-500"
+            >or</span
+          >
+        </div>
+
+        <!-- Login Form -->
+        <form method="POST" class="space-y-6">
+          {% csrf_token %}
+          <div class="space-y-4">
+            <div>
+              <label class="block text-gray-300 text-sm font-medium mb-2"
+                >Username or Email</label
+              >
+              <div class="relative">
+                <span
+                  class="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400"
+                >
+                  <i class="fas fa-user"></i>
+                </span>
+                <input
+                  type="text"
+                  name="username_or_email"
+                  required
+                  class="w-full pl-12 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition"
+                  placeholder="Enter your username or email"
+                />
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-gray-300 text-sm font-medium mb-2"
+                >Password</label
+              >
+              <div class="relative">
+                <span
+                  class="absolute inset-y-0 left-0 pl-4 flex items-center text-gray-400"
+                >
+                  <i class="fas fa-lock"></i>
+                </span>
+                <input
+                  type="password"
+                  name="password"
+                  required
+                  class="w-full pl-12 pr-4 py-3 bg-gray-800 border border-gray-700 rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent transition"
+                  placeholder="Enter your password"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="flex items-center justify-between text-sm">
+            <label class="flex items-center">
+              <input
+                type="checkbox"
+                class="form-checkbox rounded bg-gray-800 border-gray-700 text-red-600 focus:ring-red-500 focus:ring-offset-gray-900"
+              />
+              <span class="ml-2 text-gray-300">Remember me</span>
+            </label>
+            <a
+              href="#"
+              class="text-red-500 hover:text-red-400 font-medium transition"
+              >Forgot password?</a
+            >
+          </div>
+
+          <button
+            type="submit"
+            class="w-full py-3 px-4 bg-gradient-to-r from-red-600 to-pink-600 text-white font-medium rounded-xl hover:from-red-700 hover:to-pink-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition transform hover:scale-[1.02]"
+          >
+            Sign In
+          </button>
+        </form>
+
+        <p class="mt-8 text-center text-gray-400">
+          Don't have an account?
+          <a
+            href="{% url 'signup' %}"
+            class="text-red-500 hover:text-red-400 font-medium ml-1 transition"
+            >Sign up</a
+          >
+        </p>
+      </div>
+    </div>
+  </body>
+</html>

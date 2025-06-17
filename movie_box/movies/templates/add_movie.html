@@ -1,0 +1,74 @@
+{% load widget_tweaks %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Add Movie</title>
+    <!-- Include Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      /* Custom scrollbar for dark mode */
+      ::-webkit-scrollbar {
+        width: 8px;
+        background: #2d3748;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #4b5563;
+        border-radius: 4px;
+      }
+    </style>
+  </head>
+  <body class="bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 min-h-screen py-8">
+    <div class="container mx-auto">
+      {% if request.resolver_match.url_name == "add_movie" %}
+      <h1 class="text-4xl font-extrabold text-center mb-10 text-white drop-shadow-lg tracking-wide">
+        🎬 Add New Movie
+      </h1>
+      {% elif request.resolver_match.url_name == "movie_update" %}
+      <h1 class="text-4xl font-extrabold text-center mb-10 text-white drop-shadow-lg tracking-wide">
+        🎬 Update Movie
+      </h1>
+      {% endif %}
+
+      <form
+        method="POST"
+        enctype="multipart/form-data"
+        class="max-w-lg mx-auto p-8 bg-gray-800/90 rounded-2xl shadow-2xl border border-gray-700 backdrop-blur"
+      >
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        {% for field in form %}
+          <div class="mb-6">
+            <label for="{{ field.id_for_label }}" class="block text-gray-200 font-semibold mb-2 tracking-wide">
+              {{ field.label }}
+              {% if field.field.required %}<span class="text-red-500">*</span>{% endif %}
+            </label>
+            {{ field|add_class:"w-full px-4 py-2 bg-gray-900 text-white rounded-lg border border-gray-700 focus:outline-none focus:ring-2 focus:ring-red-500 transition" }}
+            {% if field.help_text %}
+              <p class="text-gray-400 text-xs mt-1">{{ field.help_text }}</p>
+            {% endif %}
+            {% for error in field.errors %}
+              <p class="text-red-400 text-xs mt-1">{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endfor %}
+        <div class="flex justify-between mt-8">
+          <button
+            type="button"
+            onclick="history.back()"
+            class="px-6 py-2 bg-gray-700 text-white rounded-lg hover:bg-gray-600 transition font-semibold shadow"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            class="px-6 py-2 bg-gradient-to-r from-red-600 to-pink-600 text-white rounded-lg hover:from-red-700 hover:to-pink-700 transition font-bold shadow-lg"
+          >
+            Add Movie
+          </button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
